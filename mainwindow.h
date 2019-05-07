@@ -20,9 +20,10 @@ public:
     ~MainWindow();
 
 protected:
-    void paintEvent(QPaintEvent *event);
+    //void paintEvent(QPaintEvent *event);
     void resizeEvent(QResizeEvent *event);
-    void moveEvent(QMoveEvent *event);
+    //void moveEvent(QMoveEvent *event);
+    void changeEvent(QEvent *event);
 
 private:
     Ui::MainWindow *ui;

@@ -47,21 +47,30 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::paintEvent(QPaintEvent *event)
-{
+//void MainWindow::paintEvent(QPaintEvent *event)
+//{
 
-}
+//}
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     ui->spinBox_width->setValue(width());
-    ui->spinBox_height->setValue(height());
+    if(!isFullScreen())
+        ui->spinBox_height->setValue(height() - ui->control->height());
 }
 
-void MainWindow::moveEvent(QMoveEvent *event)
+void MainWindow::changeEvent(QEvent *event)
 {
-
+    if (event->type() != QEvent::WindowStateChange) return;
+    if (windowState() == Qt::WindowNoState){
+        ui->control->show();
+    }
 }
+
+//void MainWindow::moveEvent(QMoveEvent *event)
+//{
+
+//}
 
 void MainWindow::on_pushButton_fullscreen_clicked()
 {
@@ -75,7 +84,6 @@ void MainWindow::on_pushButton_start_clicked()
     count = 0;
     ui->pushButton_start->hide();
     ui->pushButton_stop->show();
-    //showMinimized();
     systray->show();
     QEventLoop eventloop;
     QTimer::singleShot(500, &eventloop, SLOT(quit()));
@@ -95,6 +103,7 @@ void MainWindow::on_pushButton_start_clicked()
         timer_invert->start(ui->spinBox_delay->value());
     };
     //setWindowFlags(Qt::X11BypassWindowManagerHint);
+    if (isFullScreen()) { showMinimized(); }
     QApplication::beep();
 }
 
@@ -116,7 +125,7 @@ void MainWindow::spinBoxWidthChanged(int w)
 
 void MainWindow::spinBoxHeightChanged(int h)
 {
-    resize(width(), h);
+    resize(width(), h + ui->control->height());
 }
 
 void MainWindow::insertImageToGIF()
@@ -126,7 +135,7 @@ void MainWindow::insertImageToGIF()
         screen = window->screen();
     if (!screen)
         return;
-    QPixmap pixmap = screen->grabWindow(qApp->desktop()->winId(), x(), y(), ui->spinBox_width->value(), ui->spinBox_height->value());
+    QPixmap pixmap = screen->grabWindow(qApp->desktop()->winId(), geometry().x(), geometry().y(), ui->spinBox_width->value(), ui->spinBox_height->value());
     GifWriteFrame(&GW, pixmap.toImage().bits(), ui->spinBox_width->value(), ui->spinBox_height->value(), ui->spinBox_delay->value());
     filesize = BS(QFileInfo(filepath).size());
     ui->label_filesize->setText(filesize);
