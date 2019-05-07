@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>海天鹰GIF录屏</string>
+   <string>海天鹰录屏</string>
   </property>
   <property name="windowIcon">
    <iconset resource="files.qrc">

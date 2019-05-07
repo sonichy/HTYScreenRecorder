@@ -94,7 +94,7 @@ void MainWindow::on_pushButton_start_clicked()
     }else{
         timer_invert->start(ui->spinBox_delay->value());
     };
-    setWindowFlags(Qt::X11BypassWindowManagerHint);
+    //setWindowFlags(Qt::X11BypassWindowManagerHint);
     QApplication::beep();
 }
 
@@ -143,7 +143,7 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
         timer->stop();
         timer_invert->stop();
         GifEnd(&GW);
-        setWindowFlags(winFlags);
+        //setWindowFlags(winFlags);
         ui->pushButton_start->show();
         ui->pushButton_stop->hide();
         showNormal();
