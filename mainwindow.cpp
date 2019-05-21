@@ -9,6 +9,7 @@
 #include <QScreen>
 #include <QDebug>
 #include <QShortcut>
+#include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -136,6 +137,10 @@ void MainWindow::insertImageToGIF()
     if (!screen)
         return;
     QPixmap pixmap = screen->grabWindow(qApp->desktop()->winId(), geometry().x(), geometry().y(), ui->spinBox_width->value(), ui->spinBox_height->value());
+    QPixmap pixmap_mouse(":/mouse.png");
+    QPainter painter(&pixmap);
+    //qDebug() << cursor().pos();
+    painter.drawPixmap(QPoint(cursor().pos().x() - geometry().x(), cursor().pos().y() - geometry().y()), pixmap_mouse);
     GifWriteFrame(&GW, pixmap.toImage().bits(), ui->spinBox_width->value(), ui->spinBox_height->value(), ui->spinBox_delay->value());
     filesize = BS(QFileInfo(filepath).size());
     ui->label_filesize->setText(filesize);

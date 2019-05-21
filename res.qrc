@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>icon.svg</file>
         <file>iconi.svg</file>
+        <file>mouse.png</file>
     </qresource>
 </RCC>
